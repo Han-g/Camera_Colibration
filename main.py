@@ -33,18 +33,18 @@ def colibration():
     prev_img_shape = None
 
     capture = cv.VideoCapture(1)
+    capNum = 1
     if not capture.isOpened():
         print('Error!')
         exit()
     while True:
-        capNum = 1
         ret, img = capture.read()
         if not ret:
             print('Error!')
             break
         cv.imshow('capture', img)
         if cv.waitKey(1) == ord('c'):
-            img_capture = cv.imwrite('C:\Team_Proj\Camera_Colibration\checkerboard\capture_file%03d.jpg' % capNum, img)
+            img_capture = cv.imwrite('C:\Team_Proj\Camera_Colibration\checkerboard\capture_file%03d.jpg' %capNum, img)
             capNum += 1
 
         if cv.waitKey(1) == ord('q'):
