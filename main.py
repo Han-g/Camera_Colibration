@@ -4,7 +4,7 @@ import glob
 import os
 
 def main():
-    cam = cv.VideoCapture(1)
+    cam = cv.VideoCapture(1) # camera kind - 0 / 1 / 2 / etc
 
     if not cam.isOpened():
         print('Could not open camera!')
@@ -21,7 +21,6 @@ def main():
     cv.destroyAllWindows()
 
 def colibration():
-    key = cv.waitKey(0)
     CheckerBoard = (6,6) # checkerboard's row / col
     criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
     objPoint = [] # image's 3D point vector
@@ -43,11 +42,12 @@ def colibration():
             print('Error!')
             break
         cv.imshow('capture', img)
-        if cv.waitKey(1) == ord('c'):
-            img_capture = cv.imwrite('C:\Team_Proj\Camera_Colibration\checkerboard\capture_file%03d.jpg' %capNum, img)
+        key = cv.waitKey(1)
+        if key == ord('c'):
+            img_capture = cv.imwrite('./checkerboard/capture_file%03d.jpg' %capNum, img)
             capNum += 1
 
-        if cv.waitKey(1) == ord('q'):
+        if key == ord('q'):
             break
     cv.destroyAllWindows()
 
@@ -56,7 +56,7 @@ def colibration():
     for fname in images:
         img = cv.imread(fname)
         gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-        ret, corners = cv.findChessboardConers(gray,
+        ret, corners = cv.findChessboardCorners(gray,
                                                CheckerBoard,
                                                cv.CALIB_CB_ADAPTIVE_THRESH +
                                                cv.CALIB_CB_FAST_CHECK +
